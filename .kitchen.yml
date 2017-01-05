@@ -1,0 +1,28 @@
+---
+driver:
+  name: hyperv
+  parent_vhd_folder: 'D:\Images'
+  parent_vhd_name: 'WS2012R2-89.vhdx'
+  memory_startup_bytes: 2GB
+  vm_generation: 2
+
+provisioner:
+  name: chef_zero
+
+transport:
+  name: winrm
+  elevated: true
+  password: vagrant
+  username: Vagrant
+
+platforms:
+  - name: windows-2012r2
+suites:
+  - name: packages
+    run_list:
+    - recipe[chocolatey]
+    - recipe[chocolatey_packages]
+    attributes:
+      chocolatey_packages:
+        packages: {'googlechrome': '55.0.2883.87', 'notepadplusplus.install': '7.2.2', 'winrar' : 'latest', 'git' : '2.11.0'}
+        source: 'http://sotiartifacts:8081/artifactory/api/nuget/chocolatey'
